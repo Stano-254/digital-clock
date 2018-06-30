@@ -7,6 +7,7 @@ package digital;
 
 import java.awt.Color;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.GregorianCalendar;
 import javax.swing.JFrame;
 
@@ -19,12 +20,20 @@ import javax.swing.JFrame;
 public class Time extends javax.swing.JFrame {
 int timeRun=0;
 String Hour,Minute,second,millSec,daytime_night;
+ public enum Days {
+    SUNDAY, MONDAY, TUESDAY, WEDNESDAY,
+    THURSDAY, FRIDAY, SATURDAY 
+}
 
     /**
      * Creates new form Time
      */
     public Time() {
         initComponents();
+        jSpinner4.hide();
+        jSpinner5.hide();
+        jSpinner6.hide();
+   
         new Thread(){
           public void run(){
               while(timeRun==0)
@@ -36,7 +45,10 @@ String Hour,Minute,second,millSec,daytime_night;
                   int sec = cal.get(Calendar.SECOND);
                   int millsec = cal.get(Calendar.MILLISECOND);
                   int AM_PM = cal.get(Calendar.AM_PM);
-                 int month = cal.get(Calendar.DATE);
+                 int month = cal.get(Calendar.MONTH);
+                 int day = cal.get(Calendar.DAY_OF_MONTH);
+                 int year = cal.get(Calendar.YEAR);
+                 int dayOfWeek= cal.get(Calendar.DAY_OF_WEEK);
                   if(AM_PM==1){
                      daytime_night ="PM"; 
                   } else {
@@ -45,11 +57,29 @@ String Hour,Minute,second,millSec,daytime_night;
                   if(sec%2==0){
                      blink1.setText(":");
                      blink2.setText(":");
+                     dayOfWeeks.setForeground(Color.cyan);
                   }else{
                     blink1.setText("");  
                     blink2.setText("");
+                     dayOfWeeks.setForeground(Color.blue);
                   }
-                 
+                  
+                 if(dayOfWeek== 1){
+                     dayOfWeeks.setText("MONDAY");
+                }else if(dayOfWeek== 2){
+                     dayOfWeeks.setText("TUESDAY");
+                }else if(dayOfWeek== 3){
+                     dayOfWeeks.setText("WENSDAY");
+                }else if(dayOfWeek== 4){
+                     dayOfWeeks.setText("THURSDAY");
+                }else if(dayOfWeek== 5){
+                     dayOfWeeks.setText("FRIDAY");
+                }else if(dayOfWeek== 6){
+                     dayOfWeeks.setText("SATURDAY");
+                } else if(dayOfWeek== 7){
+                  dayOfWeeks.setText("SUNDAY");   
+                }  
+                
 //                Hour =( ( hour < 10 ) ? "0"+hour : hour ) + ""; 
                 Hour =((hour==0)&&(AM_PM==1)? 12 : ( ( hour < 10 ) ? "0"+hour : hour ))+""; 
                 
@@ -61,6 +91,7 @@ String Hour,Minute,second,millSec,daytime_night;
                SecJlb.setText(second);
                microSecJlb.setText(millSec);
                Pm_AmJlb.setText(daytime_night);
+               DateLable.setText((day)+" / "+(month+1)+" / "+year+" ");
               }
           }  
         }.start();
@@ -84,12 +115,14 @@ String Hour,Minute,second,millSec,daytime_night;
         Pm_AmJlb = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         Alarm = new javax.swing.JPanel();
-        jSpinner1 = new javax.swing.JSpinner();
-        jSpinner2 = new javax.swing.JSpinner();
-        jSpinner3 = new javax.swing.JSpinner();
+        jSpinner4 = new javax.swing.JSpinner();
+        jSpinner5 = new javax.swing.JSpinner();
+        jSpinner6 = new javax.swing.JSpinner();
         microSecJlb = new javax.swing.JLabel();
         blink2 = new javax.swing.JLabel();
         blink1 = new javax.swing.JLabel();
+        DateLable = new javax.swing.JLabel();
+        dayOfWeeks = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("JFrame");
@@ -157,12 +190,11 @@ String Hour,Minute,second,millSec,daytime_night;
 
         Alarm.setOpaque(false);
 
-        jSpinner1.setModel(new javax.swing.SpinnerNumberModel(0, 0, 12, 1));
-        jSpinner1.setOpaque(false);
+        jSpinner4.setModel(new javax.swing.SpinnerNumberModel(0, 0, 12, 1));
 
-        jSpinner2.setModel(new javax.swing.SpinnerNumberModel(0, 0, 59, 1));
+        jSpinner5.setModel(new javax.swing.SpinnerNumberModel(0, 0, 59, 1));
 
-        jSpinner3.setModel(new javax.swing.SpinnerNumberModel(0, 0, 59, 1));
+        jSpinner6.setModel(new javax.swing.SpinnerNumberModel(0, 0, 59, 1));
 
         javax.swing.GroupLayout AlarmLayout = new javax.swing.GroupLayout(Alarm);
         Alarm.setLayout(AlarmLayout);
@@ -170,22 +202,22 @@ String Hour,Minute,second,millSec,daytime_night;
             AlarmLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(AlarmLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jSpinner1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(56, 56, 56)
-                .addComponent(jSpinner2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jSpinner3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(78, 78, 78))
+                .addComponent(jSpinner4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(41, 41, 41)
+                .addComponent(jSpinner5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 47, Short.MAX_VALUE)
+                .addComponent(jSpinner6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(41, 41, 41))
         );
         AlarmLayout.setVerticalGroup(
             AlarmLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(AlarmLayout.createSequentialGroup()
-                .addContainerGap(36, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, AlarmLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(AlarmLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jSpinner2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jSpinner3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap())
+                    .addComponent(jSpinner4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jSpinner5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jSpinner6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(20, 20, 20))
         );
 
         microSecJlb.setFont(new java.awt.Font("Digital-7", 1, 36)); // NOI18N
@@ -201,23 +233,23 @@ String Hour,Minute,second,millSec,daytime_night;
         blink1.setForeground(new java.awt.Color(0, 168, 218));
         blink1.setText(":");
 
+        DateLable.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
+        DateLable.setForeground(new java.awt.Color(255, 255, 255));
+        DateLable.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        DateLable.setText("01/01/2018");
+
+        dayOfWeeks.setFont(new java.awt.Font("Digital-7 Mono", 1, 36)); // NOI18N
+        dayOfWeeks.setForeground(new java.awt.Color(255, 255, 255));
+        dayOfWeeks.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        dayOfWeeks.setText("day of week");
+
         javax.swing.GroupLayout DisplayPaneLayout = new javax.swing.GroupLayout(DisplayPane);
         DisplayPane.setLayout(DisplayPaneLayout);
         DisplayPaneLayout.setHorizontalGroup(
             DisplayPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, DisplayPaneLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(DisplayPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(DisplayPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(Alarm, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, DisplayPaneLayout.createSequentialGroup()
-                            .addComponent(jLabel1)
-                            .addGap(186, 186, 186)
-                            .addComponent(microSecJlb, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(36, 36, 36)
-                            .addComponent(minimizeCmd, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addComponent(CloseCmd, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)))
+            .addGroup(DisplayPaneLayout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addGroup(DisplayPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(DisplayPaneLayout.createSequentialGroup()
                         .addComponent(HourJlb, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, 0)
@@ -229,52 +261,61 @@ String Hour,Minute,second,millSec,daytime_night;
                         .addGap(0, 0, 0)
                         .addComponent(SecJlb, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, 0)
-                        .addComponent(Pm_AmJlb, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(Pm_AmJlb, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(14, 14, 14))
+                    .addGroup(DisplayPaneLayout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addGap(2, 2, 2)
+                        .addComponent(DateLable, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, 0)
+                        .addComponent(microSecJlb)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(minimizeCmd, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(CloseCmd, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(24, 24, 24))))
+            .addComponent(dayOfWeeks, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 245, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(Alarm, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         DisplayPaneLayout.setVerticalGroup(
             DisplayPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(DisplayPaneLayout.createSequentialGroup()
-                .addGroup(DisplayPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, DisplayPaneLayout.createSequentialGroup()
-                        .addGap(16, 16, 16)
-                        .addComponent(microSecJlb, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(DisplayPaneLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(DisplayPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1)
-                            .addGroup(DisplayPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addComponent(CloseCmd, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(minimizeCmd, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(7, 7, 7)))
-                .addGroup(DisplayPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(DisplayPaneLayout.createSequentialGroup()
-                        .addGap(26, 26, 26)
-                        .addComponent(blink2))
-                    .addGroup(DisplayPaneLayout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addGroup(DisplayPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(blink1, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(DisplayPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, DisplayPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(SecJlb, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(Pm_AmJlb, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addComponent(MinuteJlb, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 59, Short.MAX_VALUE)
-                                .addComponent(HourJlb, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
                 .addGap(0, 0, 0)
-                .addComponent(Alarm, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(8, 8, 8))
+                .addGroup(DisplayPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel1)
+                    .addGroup(DisplayPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(DateLable, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(microSecJlb, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(DisplayPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addComponent(minimizeCmd, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(CloseCmd, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGroup(DisplayPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(DisplayPaneLayout.createSequentialGroup()
+                        .addGap(8, 8, 8)
+                        .addComponent(blink2))
+                    .addComponent(blink1, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(DisplayPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, DisplayPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(SecJlb, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(Pm_AmJlb, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(MinuteJlb, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 59, Short.MAX_VALUE)
+                        .addComponent(HourJlb, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addGap(0, 0, 0)
+                .addComponent(Alarm, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, 0)
+                .addComponent(dayOfWeeks, javax.swing.GroupLayout.DEFAULT_SIZE, 48, Short.MAX_VALUE)
+                .addGap(0, 0, 0))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(DisplayPane, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(DisplayPane, javax.swing.GroupLayout.PREFERRED_SIZE, 287, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(DisplayPane, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(DisplayPane, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         DisplayPane.getAccessibleContext().setAccessibleName("");
@@ -294,20 +335,20 @@ String Hour,Minute,second,millSec,daytime_night;
     if(Alarm.isOpaque()){
              Alarm.setOpaque(false);
               Alarm.setBackground(Color.black);
-              jSpinner1.setOpaque(false);
-              jSpinner1.hide();
-              jSpinner2.hide();
-              jSpinner3.hide();
+              jSpinner4.setOpaque(false);
+              jSpinner4.hide();
+              jSpinner5.hide();
+              jSpinner6.hide();
 //              jSpinner1.setBackground(Color.black);
              
      }else {
          Alarm.setOpaque(true);
           Alarm.setBackground(Color.lightGray);
-          jSpinner1.setOpaque(true);
-          jSpinner1.setBackground(Color.LIGHT_GRAY);
-          jSpinner1.show();
-          jSpinner2.show();
-          jSpinner3.show();
+          jSpinner4.setOpaque(true);
+          jSpinner4.setBackground(Color.LIGHT_GRAY);
+          jSpinner4.show();
+          jSpinner5.show();
+          jSpinner6.show();
     }
     }//GEN-LAST:event_jLabel1MouseClicked
 
@@ -349,6 +390,7 @@ String Hour,Minute,second,millSec,daytime_night;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel Alarm;
     private javax.swing.JButton CloseCmd;
+    private javax.swing.JLabel DateLable;
     private javax.swing.JPanel DisplayPane;
     private javax.swing.JLabel HourJlb;
     private javax.swing.JLabel MinuteJlb;
@@ -356,10 +398,11 @@ String Hour,Minute,second,millSec,daytime_night;
     private javax.swing.JLabel SecJlb;
     private javax.swing.JLabel blink1;
     private javax.swing.JLabel blink2;
+    private javax.swing.JLabel dayOfWeeks;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JSpinner jSpinner1;
-    private javax.swing.JSpinner jSpinner2;
-    private javax.swing.JSpinner jSpinner3;
+    private javax.swing.JSpinner jSpinner4;
+    private javax.swing.JSpinner jSpinner5;
+    private javax.swing.JSpinner jSpinner6;
     private javax.swing.JLabel microSecJlb;
     private javax.swing.JButton minimizeCmd;
     // End of variables declaration//GEN-END:variables
